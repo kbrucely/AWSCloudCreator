@@ -3,7 +3,7 @@ variable "aws_region" {
 }
 
 variable "aws_access_key" {
-  descripition = "the access key of our aws user"
+  description = "the access key of our aws user"
 }
 
 variable "aws_secret_key" {
