@@ -24,3 +24,11 @@ resource "aws_subnet" "mgmt_private" {
     Name = "mgmt_private"
   }
 }
+
+resource "aws_internet_gateway" "mgmt_gw" {
+  vpc_id = "${aws_vpc.management.id}"
+
+  tags = {
+    Name = "mgmt_gw"
+  }
+}
