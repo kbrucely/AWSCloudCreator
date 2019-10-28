@@ -1,3 +1,4 @@
+# provider variables
 variable "aws_region" {
   description = "the aws region to run in"
 }
@@ -8,4 +9,9 @@ variable "aws_access_key" {
 
 variable "aws_secret_key" {
   description = "the secret key of our aws user"
+}
+
+# management vpc variables
+variable "management_vpc_cidr" {
+  description = "the cidr of the management vpc"
 }
