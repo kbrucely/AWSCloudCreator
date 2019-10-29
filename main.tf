@@ -1,3 +1,5 @@
+# all example values that we will remove and substitute variables in at a later date
+
 module "mgmtvpc" {
   source = "./modules/mgmt"
 
