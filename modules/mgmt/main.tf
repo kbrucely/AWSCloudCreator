@@ -32,3 +32,27 @@ resource "aws_internet_gateway" "mgmt_gw" {
     Name = "mgmt_gw"
   }
 }
+
+resource "aws_route_table" "mgmt_route_table" {
+  vpc_id = "${aws_vpc.management.id}"
+
+  tags = {
+    Name = "mgmt_route_table"
+  }
+}
+
+resource "aws_route" "mgmt_default" {
+  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = "${aws_internet_gateway.mgmt_gw.id}"
+}
+
+resource "aws_route_table_association" "mgmt_assoc_pub" {
+  subnet_id = "${aws_subnet.mgmt_public.id}"
+  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+}
+
+resource "aws_route_table_association" "mgmt_assoc_priv" {
+  subnet_id = "${aws_subnet.mgmt_private.id}"
+  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+}

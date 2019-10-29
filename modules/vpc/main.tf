@@ -32,3 +32,27 @@ resource "aws_internet_gateway" "vpc_gw" {
     Name = "${var.vpc_name}_gw"
   }
 }
+
+resource "aws_route_table" "vpc_route_table" {
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  tags = {
+    Name = "${var.vpc_name}_route_table"
+  }
+}
+
+resource "aws_route" "vpc_default" {
+  route_table_id = "${aws_route_table.vpc_route_table.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = "${aws_internet_gateway.vpc_gw.id}"
+}
+
+resource "aws_route_table_association" "vpc_assoc_pub" {
+  subnet_id = "${aws_subnet.vpc_public.id}"
+  route_table_id = "${aws_route_table.vpc_route_table.id}"
+}
+
+resource "aws_route_table_association" "vpc_assoc_priv" {
+  subnet_id = "${aws_subnet.vpc_private.id}"
+  route_table_id = "${aws_route_table.vpc_route_table.id}"
+}
