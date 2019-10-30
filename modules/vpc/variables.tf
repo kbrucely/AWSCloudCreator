@@ -14,3 +14,9 @@ variable "vpc_private_cidr" {
 variable "transit_gw_id" {
   description = "id of the transit gateway to attach the vpc to"
 }
+variable "network_cidr" {
+  description = "the cidr of the entire internal network"
+}
+variable "availability_zone" {
+  description = "the availability zone to spin subnets in"
+}

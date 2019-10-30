@@ -10,6 +10,7 @@ resource "aws_subnet" "mgmt_public" {
   vpc_id = "${aws_vpc.management.id}"
   cidr_block = "${var.management_public_cidr}"
   map_public_ip_on_launch = true                # set this because public subnet
+  availability_zone = "${var.availability_zone}"
 
   tags = {
     Name = "mgmt_public"
@@ -19,6 +20,7 @@ resource "aws_subnet" "mgmt_public" {
 resource "aws_subnet" "mgmt_private" {
   vpc_id = "${aws_vpc.management.id}"
   cidr_block = "${var.management_private_cidr}"
+  availability_zone = "${var.availability_zone}"
 
   tags = {
     Name = "mgmt_private"
@@ -45,6 +47,12 @@ resource "aws_route" "mgmt_default" {
   route_table_id = "${aws_route_table.mgmt_route_table.id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = "${aws_internet_gateway.mgmt_gw.id}"
+}
+
+resource "aws_route" "internal_traffic" {
+  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+  destination_cidr_block = "${var.network_cidr}"
+  gateway_id = "${aws_ec2_transit_gateway.mgmt_transit_gw.id}"
 }
 
 resource "aws_route_table_association" "mgmt_assoc_pub" {

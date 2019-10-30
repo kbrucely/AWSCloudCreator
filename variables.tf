@@ -10,3 +10,6 @@ variable "aws_access_key" {
 variable "aws_secret_key" {
   description = "the secret key of our aws user"
 }
+variable "availability_zone" {
+  description = "the availability zone to spin subnets in"
+}
