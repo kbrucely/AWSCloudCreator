@@ -56,3 +56,9 @@ resource "aws_route_table_association" "vpc_assoc_priv" {
   subnet_id = "${aws_subnet.vpc_private.id}"
   route_table_id = "${aws_route_table.vpc_route_table.id}"
 }
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "vpc_attachment" {
+  subnet_ids = ["${aws_subnet.vpc_private.id}"]
+  transit_gateway_id = "${var.transit_gw_id}"
+  vpc_id = "${aws_vpc.vpc.id}"
+}

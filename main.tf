@@ -15,6 +15,7 @@ module "vpc1" {
   vpc_cidr = "10.30.2.0/23"
   vpc_public_cidr = "10.30.2.0/24"
   vpc_private_cidr = "10.30.3.0/24"
+  transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }
 
 module "vpc2" {
@@ -24,4 +25,5 @@ module "vpc2" {
   vpc_cidr = "10.30.4.0/23"
   vpc_public_cidr = "10.30.4.0/24"
   vpc_private_cidr = "10.30.5.0/24"
+  transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }

@@ -11,3 +11,6 @@ variable "vpc_public_cidr" {
 variable "vpc_private_cidr" {
   description = "the cidr of the management vpc private subnet"
 }
+variable "transit_gw_id" {
+  description = "id of the transit gateway to attach the vpc to"
+}
