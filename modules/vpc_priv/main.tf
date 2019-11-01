@@ -16,6 +16,13 @@ resource "aws_subnet" "vpc_private" {
   }
 }
 
+resource "aws_internet_gateway" "vpc_gw" {
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  tags = {
+    Name = "${var.vpc_name}_gw"
+  }
+}
 
 resource "aws_route_table" "vpc_route_table" {
   vpc_id = "${aws_vpc.vpc.id}"
@@ -28,7 +35,7 @@ resource "aws_route_table" "vpc_route_table" {
 resource "aws_route" "vpc_default" {
   route_table_id = "${aws_route_table.vpc_route_table.id}"
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id = "${var.transit_gw_id}"
+  gateway_id = "${aws_internet_gateway.vpc_gw.id}"
 }
 
 resource "aws_route" "vpc_internal" {
@@ -36,7 +43,6 @@ resource "aws_route" "vpc_internal" {
   destination_cidr_block = "${var.network_cidr}"
   gateway_id = "${var.transit_gw_id}"
 }
-
 
 resource "aws_route_table_association" "vpc_assoc_priv" {
   subnet_id = "${aws_subnet.vpc_private.id}"
