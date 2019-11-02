@@ -35,35 +35,71 @@ resource "aws_internet_gateway" "mgmt_gw" {
   }
 }
 
-resource "aws_route_table" "mgmt_route_table" {
-  vpc_id = "${aws_vpc.management.id}"
+resource "aws_eip" "nat" {
+
+}
+
+resource "aws_nat_gateway" "mgmt_nat_gw" {
+  allocation_id = "${aws_eip.nat.id}"
+  subnet_id     = "${aws_subnet.mgmt_public.id}"
 
   tags = {
-    Name = "mgmt_route_table"
+    Name = "mgmt_nat_gw"
   }
 }
 
-resource "aws_route" "mgmt_default" {
-  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+resource "aws_route_table" "mgmt_route_table_priv" {
+  vpc_id = "${aws_vpc.management.id}"
+
+  tags = {
+    Name = "mgmt_route_table_priv"
+  }
+}
+
+resource "aws_route_table" "mgmt_route_table_pub" {
+  vpc_id = "${aws_vpc.management.id}"
+
+  tags = {
+    Name = "mgmt_route_table_pub"
+  }
+}
+
+
+resource "aws_route" "mgmt_default_priv" {
+  route_table_id = "${aws_route_table.mgmt_route_table_priv.id}"
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id = "${aws_nat_gateway.mgmt_nat_gw.id}"
+}
+
+resource "aws_route" "internal_traffic_priv" {
+  route_table_id = "${aws_route_table.mgmt_route_table_priv.id}"
+  destination_cidr_block = "${var.network_cidr}"
+  gateway_id = "${aws_ec2_transit_gateway.mgmt_transit_gw.id}"
+}
+
+resource "aws_route_table_association" "mgmt_assoc_priv" {
+  subnet_id = "${aws_subnet.mgmt_private.id}"
+  route_table_id = "${aws_route_table.mgmt_route_table_priv.id}"
+}
+
+resource "aws_route" "mgmt_default_pub" {
+  route_table_id = "${aws_route_table.mgmt_route_table_pub.id}"
   destination_cidr_block = "0.0.0.0/0"
   gateway_id = "${aws_internet_gateway.mgmt_gw.id}"
 }
 
-resource "aws_route" "internal_traffic" {
-  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+resource "aws_route" "internal_traffic_pub" {
+  route_table_id = "${aws_route_table.mgmt_route_table_pub.id}"
   destination_cidr_block = "${var.network_cidr}"
   gateway_id = "${aws_ec2_transit_gateway.mgmt_transit_gw.id}"
 }
 
 resource "aws_route_table_association" "mgmt_assoc_pub" {
   subnet_id = "${aws_subnet.mgmt_public.id}"
-  route_table_id = "${aws_route_table.mgmt_route_table.id}"
+  route_table_id = "${aws_route_table.mgmt_route_table_pub.id}"
 }
 
-resource "aws_route_table_association" "mgmt_assoc_priv" {
-  subnet_id = "${aws_subnet.mgmt_private.id}"
-  route_table_id = "${aws_route_table.mgmt_route_table.id}"
-}
+
 
 resource "aws_ec2_transit_gateway" "mgmt_transit_gw" {
   description = "the transit gateway for our account"

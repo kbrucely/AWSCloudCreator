@@ -13,7 +13,7 @@ module "mgmtvpc" {
 }
 
 module "vpc1" {
-  source = "./modules/vpc_pub"
+  source = "./modules/vpc"
 
   network_cidr = "10.30.0.0/16"
   vpc_name = "vpc1"
@@ -25,12 +25,13 @@ module "vpc1" {
 }
 
 module "vpc2" {
-  source = "./modules/vpc_priv"
+  source = "./modules/vpc"
 
   network_cidr = "10.30.0.0/16"
   vpc_name = "vpc2"
   vpc_cidr = "10.30.4.0/23"
-  vpc_private_cidr = "10.30.4.0/24"
+  vpc_public_cidr = "10.30.4.0/24"
+  vpc_private_cidr = "10.30.5.0/24"
   availability_zone = "${var.availability_zone}"
   transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }
