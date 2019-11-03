@@ -112,7 +112,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "mgmt_vpc_attachment" {
 }
 
 output "mgmt_vpc_id" {
-  value = "${aws_vpc.managment.id}"
+  value = "${aws_vpc.management.id}"
 }
 
 output "aws_ec2_transit_gateway_id" {
