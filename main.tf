@@ -3,13 +3,20 @@
 module "mgmtvpc" {
   source = "./modules/mgmt"
 
-
   network_cidr = "10.30.0.0/16"
   management_vpc_cidr = "10.30.0.0/23"
   management_public_cidr = "10.30.0.0/24"
   management_private_cidr = "10.30.1.0/24"
   availability_zone = "${var.availability_zone}"
+}
 
+module "mgmtvpc_secgroup" {
+  source = "./modules/security_group"
+
+  security_group_name = "mgmt vpc security group"
+  vpc_id = "${module.mgmtvpc.mgmt_vpc_id}"
+  network_cidr = "10.30.0.0/16"
+  mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }
 
 module "vpc1" {
@@ -24,6 +31,15 @@ module "vpc1" {
   transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }
 
+module "vpc1_secgroup" {
+  source = "./modules/security_group"
+
+  security_group_name = "vpc1 security group"
+  vpc_id = "${module.vpc1.vpc_id}"
+  network_cidr = "10.30.0.0/16"
+  mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
+}
+
 module "vpc2" {
   source = "./modules/vpc"
 
@@ -34,4 +50,13 @@ module "vpc2" {
   vpc_private_cidr = "10.30.5.0/24"
   availability_zone = "${var.availability_zone}"
   transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
+}
+
+module "vpc2_secgroup" {
+  source = "./modules/security_group"
+
+  security_group_name = "vpc2 security group"
+  vpc_id = "${module.vpc2.vpc_id}"
+  network_cidr = "10.30.0.0/16"
+  mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }

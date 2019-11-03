@@ -103,3 +103,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "vpc_attachment" {
   transit_gateway_id = "${var.transit_gw_id}"
   vpc_id = "${aws_vpc.vpc.id}"
 }
+
+output "vpc_id" {
+  value = "${aws_vpc.vpc.id}"
+}

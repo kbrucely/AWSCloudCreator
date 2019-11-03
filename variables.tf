@@ -13,3 +13,6 @@ variable "aws_secret_key" {
 variable "availability_zone" {
   description = "the availability zone to spin subnets in"
 }
+variable "mgmt_ip_allowed" {
+  description = "the IP addresses you will be managing hosts from over ssh or rdp"
+}
