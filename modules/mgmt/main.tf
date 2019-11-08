@@ -115,6 +115,10 @@ output "mgmt_vpc_id" {
   value = "${aws_vpc.management.id}"
 }
 
+output "mgmt_pub_subnet_id" {
+  value = "${aws_subnet.mgmt_public.id}"
+}
+
 output "aws_ec2_transit_gateway_id" {
   value = "${aws_ec2_transit_gateway.mgmt_transit_gw.id}"
 }

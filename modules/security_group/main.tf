@@ -136,3 +136,7 @@ resource "aws_security_group_rule" "allow_outbound_icmp" {
 
   security_group_id = "${aws_security_group.sec_grp.id}"
 }
+
+output "sec_grp_id" {
+  value = "${aws_security_group.sec_grp.id}"
+}

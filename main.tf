@@ -60,3 +60,14 @@ module "vpc2_secgroup" {
   network_cidr = "10.30.0.0/16"
   mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }
+
+module "openvpn" {
+  source = "./modules/openvpn"
+
+  key_name = "oct29.pem"
+  ami = "ami-024c80694b5b3e51a"
+  instance_type = "t2.micro"
+  volume_size = 40
+  mgmt_pub_subnet_id = "${module.mgmtvpc.mgmt_pub_subnet_id}"
+  mgmt_secgrp = "${module.mgmtvpc_secgroup.sec_grp_id}"
+}
