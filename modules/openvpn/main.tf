@@ -24,7 +24,7 @@ provisioner "file" {
   connection {
     type = "ssh"
     user = "ec2-user"
-    private_key = "file("${var.key_name}")"
+    private_key = "${file("${var.key_name}")}"
     host = "${aws_instance.openvpn.public_ip}"
   }
 }
@@ -38,7 +38,7 @@ provisioner "file" {
     connection {
       type = "ssh"
       user = "ec2-user"
-      private_key = "file("${var.key_name}")"
+      private_key = "${file("${var.key_name}")}"
       host = "${aws_instance.openvpn.public_ip}"
     }
   }
