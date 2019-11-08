@@ -7,12 +7,12 @@ variable "mgmt_pub_subnet_id" {
 variable "mgmt_secgrp" {
   description = "the id of the mgmt network security group"
 }
-variable "ami_id" {
+variable "ami" {
   description = "the ID of the ami to create"
 }
 variable "instance_type" {
   description = "size of the openvpn instance"
 }
-vriable "volume_size" {
+variable "volume_size" {
   description = "size of the volume of the root device"
 }
