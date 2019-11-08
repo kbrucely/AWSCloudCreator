@@ -64,7 +64,7 @@ module "vpc2_secgroup" {
 module "openvpn" {
   source = "./modules/openvpn"
 
-  key_name = "oct29.pem"
+  key_name = "Oct29"
   ami = "ami-024c80694b5b3e51a"
   instance_type = "t2.micro"
   volume_size = 40
