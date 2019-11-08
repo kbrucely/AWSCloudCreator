@@ -18,27 +18,27 @@ resource "aws_instance" "openvpn" {
 resource "null_resource" "openvpn_install" {
 
 provisioner "file" {
-  source      = "./scripts/install.sh"
+  source      = "scripts/install.sh"
   destination = "/tmp/install.sh"
 
   connection {
     type = "ssh"
     user = "ec2-user"
-    private_key = "${file("${var.key_name}")}"
+    private_key = "${file("${var.key_name}.pem")}"
     host = "${aws_instance.openvpn.public_ip}"
   }
 }
 
   provisioner "remote-exec" {
     inline = [
-      "sudo chmod u+x /tmp/install.sh",
+      "sudo chmod ugo+x /tmp/install.sh",
       "sudo /tmp/install.sh"
     ]
 
     connection {
       type = "ssh"
       user = "ec2-user"
-      private_key = "${file("${var.key_name}")}"
+      private_key = "${file("${var.key_name}.pem")}"
       host = "${aws_instance.openvpn.public_ip}"
     }
   }
