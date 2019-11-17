@@ -61,12 +61,19 @@ module "vpc2_secgroup" {
   mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }
 
+# openvpn access server setup notes - subscribe in the marketplace for the byol ami image for your region
+#  once you log in, 2 licenses free for testing
+#  openvpnas is the user
+#  set the admin user openvpn passwd on the unix system so you can log into the admin UI
+#  out of the box, NAT is the routing method.
+#  set the specify the private subnets which all clients should be given access to as your network cidr
+
 module "openvpn" {
   source = "./modules/openvpn"
 
   key_name = "Oct29"
-  ami = "ami-024c80694b5b3e51a"
-  instance_type = "t2.micro"
+  ami = "ami-0f2426a96b5ca8a0c"   # uses openvpn access server, byol
+  instance_type = "t2.small"
   volume_size = 40
   mgmt_pub_subnet_id = "${module.mgmtvpc.mgmt_pub_subnet_id}"
   mgmt_secgrp = "${module.mgmtvpc_secgroup.sec_grp_id}"

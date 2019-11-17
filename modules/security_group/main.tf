@@ -103,6 +103,18 @@ resource "aws_security_group_rule" "allow_ssh_mgmt_inbound" {
   security_group_id = "${aws_security_group.sec_grp.id}"
 }
 
+resource "aws_security_group_rule" "allow_openvpn_mgmt_inbound" {
+  type            = "ingress"
+  from_port       = 943
+  to_port         = 943
+  protocol        = "tcp"
+  # Opening to 0.0.0.0/0 can lead to security vulnerabilities.
+  cidr_blocks = [ "${var.mgmt_ip_allowed}" ]
+
+  security_group_id = "${aws_security_group.sec_grp.id}"
+}
+
+
 resource "aws_security_group_rule" "allow_rdp_mgmt_inbound" {
   type            = "ingress"
   from_port       = 3389

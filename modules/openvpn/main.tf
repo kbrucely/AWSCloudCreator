@@ -1,3 +1,4 @@
+# you should feed in an openvpn access server, byol ami id
 resource "aws_instance" "openvpn" {
   ami = "${var.ami}"
   instance_type = "${var.instance_type}"
