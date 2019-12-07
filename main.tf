@@ -31,7 +31,7 @@ module "devvpc" {
   transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }
 
-module "dev_secgroup" {
+module "devvpc_secgroup" {
   source = "./modules/security_group"
 
   security_group_name = "dev security group"
@@ -52,11 +52,11 @@ module "prodvpc" {
   transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }
 
-module "vpc2_secgroup" {
+module "prodvpc_secgroup" {
   source = "./modules/security_group"
 
   security_group_name = "prod security group"
-  vpc_id = "${module.vpc2.vpc_id}"
+  vpc_id = "${module.prodvpc.vpc_id}"
   network_cidr = "10.30.0.0/16"
   mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }
