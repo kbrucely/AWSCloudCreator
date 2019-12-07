@@ -19,11 +19,11 @@ module "mgmtvpc_secgroup" {
   mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }
 
-module "vpc1" {
+module "devvpc" {
   source = "./modules/vpc"
 
   network_cidr = "10.30.0.0/16"
-  vpc_name = "vpc1"
+  vpc_name = "dev"
   vpc_cidr = "10.30.2.0/23"
   vpc_public_cidr = "10.30.2.0/24"
   vpc_private_cidr = "10.30.3.0/24"
@@ -31,20 +31,20 @@ module "vpc1" {
   transit_gw_id = "${module.mgmtvpc.aws_ec2_transit_gateway_id}"
 }
 
-module "vpc1_secgroup" {
+module "dev_secgroup" {
   source = "./modules/security_group"
 
-  security_group_name = "vpc1 security group"
-  vpc_id = "${module.vpc1.vpc_id}"
+  security_group_name = "dev security group"
+  vpc_id = "${module.devvpc.vpc_id}"
   network_cidr = "10.30.0.0/16"
   mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
 }
 
-module "vpc2" {
+module "prodvpc" {
   source = "./modules/vpc"
 
   network_cidr = "10.30.0.0/16"
-  vpc_name = "vpc2"
+  vpc_name = "prod"
   vpc_cidr = "10.30.4.0/23"
   vpc_public_cidr = "10.30.4.0/24"
   vpc_private_cidr = "10.30.5.0/24"
@@ -55,7 +55,7 @@ module "vpc2" {
 module "vpc2_secgroup" {
   source = "./modules/security_group"
 
-  security_group_name = "vpc2 security group"
+  security_group_name = "prod security group"
   vpc_id = "${module.vpc2.vpc_id}"
   network_cidr = "10.30.0.0/16"
   mgmt_ip_allowed = "${var.mgmt_ip_allowed}"
