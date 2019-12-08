@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run:
           name: terraform init
-          command: terraform init -backend-config=backend.tf
+          command: terraform init -backend-config="backend.tf"
       - run:
           name: terraform apply
           command: terraform apply -auto-approve -var "availability_zone=$availability_zone" -var "aws_access_key=$aws_access_key" -var "aws_region=$aws_region" -var "aws_secret_key=$aws_secret_key" -var "mgmt_ip_allowed=$mgmt_ip_allowed"
