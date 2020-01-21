@@ -32,8 +32,10 @@ workflows:
     jobs:
       - preview
       - approve-preview:
-        type: approval
-        requires:
-          - preview
-      - apply
+          type: approval
+          requires:
+            - preview
+      - apply:
+          requires:
+            - approve-preview
 
