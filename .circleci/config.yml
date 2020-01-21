@@ -10,21 +10,21 @@ jobs:
       - run:
           name: terraform init
           command: > 
-          terraform init
-          -backend-config="backend.tf"
-          -backend-config="bucket=$bucket"
-          -backend-config="access_key=$aws_access_key"
-          -backend-config="secret_key=$aws_secret_key"
+            terraform init
+            -backend-config="backend.tf"
+            -backend-config="bucket=$bucket"
+            -backend-config="access_key=$aws_access_key"
+            -backend-config="secret_key=$aws_secret_key"
       - run:
           name: terraform apply
           command: >
-          terraform apply
-          -auto-approve
-          -var "availability_zone=$availability_zone"
-          -var "aws_access_key=$aws_access_key"
-          -var "aws_region=$aws_region"
-          -var "aws_secret_key=$aws_secret_key"
-          -var "mgmt_ip_allowed=$mgmt_ip_allowed"
+            terraform apply
+            -auto-approve
+            -var "availability_zone=$availability_zone"
+            -var "aws_access_key=$aws_access_key"
+            -var "aws_region=$aws_region"
+            -var "aws_secret_key=$aws_secret_key"
+            -var "mgmt_ip_allowed=$mgmt_ip_allowed"
 
   preview:
     docker:
@@ -34,20 +34,20 @@ jobs:
       - run:
           name: terraform init
           command: >
-          terraform init
-          -backend-config="backend.tf"
-          -backend-config="bucket=$bucket"
-          -backend-config="access_key=$aws_access_key"
-          -backend-config="secret_key=$aws_secret_key"
+            terraform init
+            -backend-config="backend.tf"
+            -backend-config="bucket=$bucket"
+            -backend-config="access_key=$aws_access_key"
+            -backend-config="secret_key=$aws_secret_key"
       - run:
           name: terraform plan
           command: >
-          terraform plan
-          -var "availability_zone=$availability_zone"
-          -var "aws_access_key=$aws_access_key"
-          -var "aws_region=$aws_region"
-          -var "aws_secret_key=$aws_secret_key"
-          -var "mgmt_ip_allowed=$mgmt_ip_allowed"
+            terraform plan
+            -var "availability_zone=$availability_zone"
+            -var "aws_access_key=$aws_access_key"
+            -var "aws_region=$aws_region"
+            -var "aws_secret_key=$aws_secret_key"
+            -var "mgmt_ip_allowed=$mgmt_ip_allowed"
 
 workflows:
   version: 2
