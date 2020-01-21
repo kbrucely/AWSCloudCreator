@@ -2,7 +2,7 @@
 A terraform project that scaffolds out some example networks in amazon web services
 
 ## version
-- 0.10.0
+- 0.11.0
 
 ## usage
 - create a terraform.tfvars with the values for aws_region, avaiability_zone, aws_access_key, and aws_secret_key
@@ -15,3 +15,4 @@ A terraform project that scaffolds out some example networks in amazon web servi
 - basic security groups created
 - modules added for openvpn access server standup in mgmt network with notes
 - circleci configuration example added
+- circleci configuration includes workflow with preview, approve, and apply
